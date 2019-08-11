@@ -1,0 +1,105 @@
+LOCAL_PATH := device/sony/tuba
+
+include $(LOCAL_PATH)/platform/board.mk
+
+# Platform
+#ARCH_ARM_HAVE_TLS_REGISTER := true
+TARGET_BOARD_PLATFORM := mt6755
+TARGET_NO_BOOTLOADER := true
+
+# CPU
+TARGET_ARCH := arm64
+TARGET_ARCH_VARIANT := armv8-a
+TARGET_CPU_ABI := arm64-v8a
+TARGET_CPU_ABI2 :=
+TARGET_CPU_VARIANT := cortex-a53
+#TARGET_CPU_SMP := true
+
+TARGET_2ND_ARCH := arm
+TARGET_2ND_ARCH_VARIANT := armv7-a-neon
+TARGET_2ND_CPU_ABI := armeabi-v7a
+TARGET_2ND_CPU_ABI2 := armeabi
+TARGET_2ND_CPU_VARIANT := cortex-a53
+TARGET_BOARD_SUFFIX := _64
+TARGET_USES_64_BIT_BINDER := true
+
+TARGET_CPU_CORTEX_A53 := true
+
+TARGET_BOOTLOADER_BOARD_NAME := mt6755
+
+# Kernel
+TARGET_USES_64_BIT_BINDER := true
+TARGET_IS_64_BIT := true
+LZMA_RAMDISK_TARGETS := boot,recovery
+BOARD_USES_FULL_RECOVERY_IMAGE := true
+BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
+BOARD_KERNEL_BASE := 0x40078000
+BOARD_KERNEL_PAGESIZE := 2048
+BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,64N2 enforcing=0 androidboot.selinux=permissive loglevel=8
+BOARD_MKBOOTIMG_ARGS := --board 1465391499 --ramdisk_offset 0x04f88000 --second_offset 0x00e88000 --tags_offset 0x03f88000
+TARGET_KERNEL_ARCH := arm64
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
+TARGET_KERNEL_SOURCE := kernel/sony/tuba
+TARGET_KERNEL_CONFIG := tuba_defconfig
+
+# Partitions
+BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16777216
+BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_CACHEIMAGE_PARTITION_SIZE := 444596224
+BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2793406464
+BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 27468479488
+BOARD_FLASH_BLOCK_SIZE := 131072
+
+BOARD_HAS_LARGE_FILESYSTEM := true
+TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_USERIMAGES_USE_F2FS := true
+
+# Include needed symbols
+TARGET_INCLUDE_LIBTUBA := true
+TARGET_INCLUDE_LIBGUI := true
+TARGET_LD_SHIM_LIBS := \
+    /system/vendor/lib64/hw/hwcomposer.mt6755.so|libtuba_gui.so
+
+# Display
+DEVICE_RESOLUTION := 720x1280
+TARGET_SCREEN_WIDTH := 720
+TARGET_SCREEN_HEIGHT := 1280
+
+# Bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
+
+# LightHAL
+TARGET_PROVIDES_LIBLIGHT := true
+
+# Recovery
+TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/fstab.mt6755
+
+# TWRP
+BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_23x41.h\"
+TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID := true
+TW_DEVICE_VERSION := 0
+RECOVERY_SDCARD_ON_DATA := true
+TW_BRIGHTNESS_PATH := /sys/devices/platform/leds-mt65xx/leds/lcd-backlight/brightness/
+TW_INCLUDE_CRYPTO := true
+TW_USE_TOOLBOX := true
+TWRP_INCLUDE_LOGCAT := true
+TW_MAX_BRIGHTNESS := 255
+TW_CUSTOM_CPU_TEMP_PATH := /sys/devices/virtual/thermal/thermal_zone1/temp
+TW_CUSTOM_BATTERY_PATH := "/sys/class/power_supply/battery"
+TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun%d/file"
+TWHAVE_SELINUX := true
+
+# Crypto
+TW_CRYPTO_REAL_BLKDEV := "/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/userdata" 
+TW_CRYPTO_MNT_POINT := "/data"
+TW_CRYPTO_KEY_LOC := "footer"
+TW_CRYPTO_FS_OPTIONS := "nosuid,nodev,noatime,discard,noauto_da_alloc,data =ordered"
+TW_INCLUDE_L_CRYPTO := true
+
+TARGET_SYSTEM_PROP := $(LOCAL_PATH)/system.prop
+
+# SELinux
+BOARD_SEPOLICY_DIRS += $(LOCAL_PATH)/sepolicy
